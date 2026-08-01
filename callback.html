@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TikTok Auth Callback</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; line-height: 1.6; color: #222; }
+    code, .box { background: #f4f4f5; border: 1px solid #ddd; border-radius: 6px; padding: 8px 10px; word-break: break-all; display: block; margin: 8px 0; }
+    button { padding: 8px 14px; font-size: 15px; cursor: pointer; border-radius: 6px; border: 1px solid #0a58ca; background: #0a58ca; color: #fff; }
+    .muted { color: #666; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h1>Kode otorisasi TikTok</h1>
+  <p class="muted">Salin <b>code</b> di bawah, lalu tukar jadi token dengan skrip <code>tiktok_auth</code>.</p>
+
+  <p>code:</p>
+  <div class="box" id="code">(tidak ada)</div>
+  <button onclick="copyCode()">Salin code</button>
+
+  <p style="margin-top:24px;">state:</p>
+  <div class="box" id="state">(tidak ada)</div>
+
+  <p class="muted" id="err" style="color:#b00;"></p>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const state = params.get("state");
+    const error = params.get("error");
+    if (code) document.getElementById("code").textContent = decodeURIComponent(code);
+    if (state) document.getElementById("state").textContent = state;
+    if (error) document.getElementById("err").textContent = "error: " + error + " - " + (params.get("error_description") || "");
+
+    function copyCode() {
+      const t = document.getElementById("code").textContent;
+      navigator.clipboard.writeText(t).then(() => alert("code disalin"));
+    }
+  </script>
+</body>
+</html>
